@@ -1,6 +1,7 @@
+// The same as Triangle
+// Needed to store Element info in static file
 export type Piece = {
     id: number;
-    // References for sibling triangles
     rightLeg?: number;
     leftLeg?: number;
     hypotenuse?: number;
@@ -8,7 +9,10 @@ export type Piece = {
     bottom?: number;
 }
 
-export type Element = Piece[];
+export type Element = {
+    id: number;
+    pieces: Piece[];
+};
 
 export type Elements = Element[];
 

@@ -2,6 +2,7 @@ import { Coords } from "./types";
 
 export class Triangle {
     isTaken = false;
+    elementId: number | null = null;
 
     // References for sibling triangles
     rightLeg: Triangle | null = null;
@@ -16,15 +17,20 @@ export class Triangle {
 export class GameField {
     layers: Triangle[][][] = [];
 
+    get triangles(): Triangle[] {
+        return this.layers.flat(2);
+    }
+
     constructor() {
         this.initTriangles();
     }
 
-    clearTaken(): void {
+    clear(): void {
         this.layers.forEach((layer) => {
             layer.forEach((square) => {
                 square.forEach((triangle) => {
                     triangle.isTaken = false;
+                    triangle.elementId = null;
                 });
             });
         });
