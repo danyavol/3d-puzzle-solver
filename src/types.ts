@@ -11,3 +11,9 @@ export type Piece = {
 export type Element = Piece[];
 
 export type Elements = Element[];
+
+export type Coords = {
+    layer: number;
+    square: number;
+    triangle: number;
+};
