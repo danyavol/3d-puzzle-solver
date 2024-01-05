@@ -36,6 +36,13 @@ export class GameField {
         });
     }
 
+    clearTriangles(triangles: Triangle[]): void {
+        triangles.forEach(t => {
+            t.isTaken = false;
+            t.elementId = null;
+        })
+    }
+
     private initTriangles(): void {
         for (let layer = 0; layer < 4; layer++) {
             this.layers[layer] = [];

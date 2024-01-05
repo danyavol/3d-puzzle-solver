@@ -1,4 +1,5 @@
-import { Element, Elements } from "./types";
+import { reverseElement } from "./reverse";
+import { Element, Elements, FullElement } from "./types";
 
 const element0: Element = {
     id: 0,
@@ -130,7 +131,7 @@ const element10: Element = {
     ],
 };
 
-export const ALL_ELEMENTS: Elements = [
+const ELEMENTS: Elements = [
     element0,
     element1,
     element2,
@@ -143,3 +144,5 @@ export const ALL_ELEMENTS: Elements = [
     element9,
     element10,
 ];
+
+export const ALL_ELEMENTS: FullElement[] = ELEMENTS.map(reverseElement);

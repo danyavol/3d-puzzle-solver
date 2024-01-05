@@ -14,6 +14,10 @@ export type Element = {
     pieces: Piece[];
 };
 
+export type FullElement = Element & {
+    reversedPieces: Piece[]; // Like the figure were rotate by 180 degrees
+};
+
 export type Elements = Element[];
 
 export type Coords = {

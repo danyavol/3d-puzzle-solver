@@ -1,17 +1,17 @@
-import { placeElement } from "./combinations";
+import { findCorrectCombination, filterInvalidPositions } from "./combinations";
 import { ALL_ELEMENTS } from "./elements";
 import { GameField } from "./game-field";
+import { drawElement } from "./visualize";
 
 const field = new GameField();
 
-const element = ALL_ELEMENTS[0];
+const possibleSolutions = filterInvalidPositions(field, ALL_ELEMENTS);
+const solution = findCorrectCombination(possibleSolutions);
 
-const searchResult = field.triangles.reduce((possiblePositions, triangle) => {
-    const result = placeElement(element, triangle);
-    if (result.isValid) {
-        possiblePositions.push(triangle.coords);
-    }
-    return possiblePositions;
-}, [] as any[]);
-
-console.log('Number of possible placements - ', searchResult.length);
+if (solution) {
+    console.log('SOLUTION FOUND\n');
+    solution.forEach(elem => {
+        const { layer, square, triangle} = elem.triangle;
+        drawElement(`Element ${elem.elementId}`, elem.pieces, field.layers[layer][square][triangle]);
+    })
+}
