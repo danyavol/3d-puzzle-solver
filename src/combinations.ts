@@ -63,7 +63,7 @@ type CorrectTriangle = {
     triangle: Coords;
 };
 
-export function findCorrectCombination(possibleSolutionsForElements: PossibleSolutions[]): CorrectTriangle[] | null {
+export function findFirstCorrectCombination(possibleSolutionsForElements: PossibleSolutions[]): CorrectTriangle[] | null {
     function placeNextElement(elementIndex: number): CorrectTriangle[] | null {
         const element = possibleSolutionsForElements[elementIndex];
 
@@ -106,4 +106,75 @@ export function findCorrectCombination(possibleSolutionsForElements: PossibleSol
     }
 
     return placeNextElement(0);
+}
+
+export function findAllCorrectCombinations(possibleSolutionsForElements: PossibleSolutions[]): CorrectTriangle[][] {
+    let iterations = 0;
+    let lastIndexes = 0;
+    function placeNextElement(elementIndex: number, correctCallback: (solution: CorrectTriangle[]) => void): void {
+        const element = possibleSolutionsForElements[elementIndex];
+        iterations++;
+
+        if (elementIndex === 10) {
+            lastIndexes++;
+        }
+        // Last index reached
+        if (!element) {
+            correctCallback([]);
+            return;
+        }
+
+        for (let triangle of element.triangles) {
+            const isSuccess = placeElement(element.element.pieces, triangle);
+
+            if (isSuccess) {
+                placeNextElement(elementIndex + 1, (partialSolution) => {
+                    correctCallback([{ 
+                        elementId: element.element.id, 
+                        isReversed: false, 
+                        pieces: element.element.pieces, 
+                        triangle: triangle.coords 
+                    }, ...partialSolution]);
+                });
+
+                removeElement(element.element.pieces, triangle);
+            }
+        }
+
+        // Try reversed variant if default doesn't fit
+        for (let triangle of element.reversedTriangles) {
+            const isReversedSuccess = placeElement(element.element.reversedPieces, triangle);
+
+            if (isReversedSuccess) {
+                placeNextElement(elementIndex + 1, (partialSolution) => {
+                    correctCallback([{ 
+                        elementId: element.element.id, 
+                        isReversed: true, 
+                        pieces: element.element.reversedPieces, 
+                        triangle: triangle.coords 
+                    }, ...partialSolution]);
+                });
+
+                removeElement(element.element.reversedPieces, triangle);
+            }
+        }
+
+        if (elementIndex === 0) {
+            console.log('end');
+        }
+        // Correct triangle not found
+    }
+
+    const allSolutions: CorrectTriangle[][] = [];
+
+    placeNextElement(0, (solution) => {
+        allSolutions.push(solution);
+        console.log('New solution found', iterations);
+    });
+
+    console.log('ALL Iterations', iterations);
+    console.log('Number of almost correct solutions', lastIndexes);
+    console.log('Number of correct solutions', allSolutions.length);
+
+    return allSolutions;
 }

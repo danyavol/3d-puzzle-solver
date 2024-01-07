@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "dev": "nodemon -L -r tsconfig-paths/register src/main.ts",
+        "dev": "nodemon --watch src -L -r tsconfig-paths/register src/main.ts",
         "build": "tsc --build"
     },
     "devDependencies": {
