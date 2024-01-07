@@ -10,7 +10,7 @@ const possibleSolutions = filterInvalidPositions(field, ALL_ELEMENTS);
 
 // First Solutions
 const solution = findFirstCorrectCombination(possibleSolutions);
-writeFileSync(path.join(__dirname, '../static/first-solution.json'), JSON.stringify(solution));
+writeFileSync(path.join(__dirname, '../../data/first-solution.json'), JSON.stringify(solution));
 if (solution) {
     console.log('SOLUTION FOUND\n');
     solution.forEach(elem => {
@@ -23,4 +23,4 @@ if (solution) {
 // All Solutions
 field.clear();
 const solutions = findAllCorrectCombinations(possibleSolutions);
-writeFileSync(path.join(__dirname, '../static/all-solutions.json'), JSON.stringify(solutions));
+writeFileSync(path.join(__dirname, '../../data/all-solutions.json'), JSON.stringify(solutions));
