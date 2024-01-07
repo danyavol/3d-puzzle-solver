@@ -29,8 +29,7 @@ export type Coords = {
 export type CorrectTriangle = {
     elementId: number;
     isReversed: boolean;
-    pieces: Piece[];
-    triangle: Coords;
+    coords: Coords;
 };
 
 export type PossibleSolutions = {

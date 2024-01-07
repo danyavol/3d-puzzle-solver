@@ -32,7 +32,7 @@ export function findFirstCorrectCombination(possibleSolutionsForElements: Possib
                     // No possible combinations found
                     removeElement(element.element.pieces, triangle);
                 } else {
-                    return [{ elementId: element.element.id, isReversed: false, pieces: element.element.pieces, triangle: triangle.coords }, ...otherCorrectTriangles];
+                    return [{ elementId: element.element.id, isReversed: false, coords: triangle.coords }, ...otherCorrectTriangles];
                 }
             }
         }
@@ -48,7 +48,7 @@ export function findFirstCorrectCombination(possibleSolutionsForElements: Possib
                     // No possible combinations found
                     removeElement(element.element.reversedPieces, triangle);
                 } else {
-                    return [{ elementId: element.element.id, isReversed: true, pieces: element.element.reversedPieces, triangle: triangle.coords }, ...otherCorrectTriangles];
+                    return [{ elementId: element.element.id, isReversed: true, coords: triangle.coords }, ...otherCorrectTriangles];
                 }
             }
         }
@@ -82,9 +82,8 @@ export function findAllCorrectCombinations(possibleSolutionsForElements: Possibl
                 placeNextElement(elementIndex + 1, (partialSolution) => {
                     correctCallback([{ 
                         elementId: element.element.id, 
-                        isReversed: false, 
-                        pieces: element.element.pieces, 
-                        triangle: triangle.coords 
+                        isReversed: false,
+                        coords: triangle.coords 
                     }, ...partialSolution]);
                 });
 
@@ -100,9 +99,8 @@ export function findAllCorrectCombinations(possibleSolutionsForElements: Possibl
                 placeNextElement(elementIndex + 1, (partialSolution) => {
                     correctCallback([{ 
                         elementId: element.element.id, 
-                        isReversed: true, 
-                        pieces: element.element.reversedPieces, 
-                        triangle: triangle.coords 
+                        isReversed: true,
+                        coords: triangle.coords 
                     }, ...partialSolution]);
                 });
 

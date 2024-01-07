@@ -14,8 +14,9 @@ writeFileSync(path.join(__dirname, '../static/first-solution.json'), JSON.string
 if (solution) {
     console.log('SOLUTION FOUND\n');
     solution.forEach(elem => {
-        const { layer, square, triangle} = elem.triangle;
-        drawElement(`Element ${elem.elementId}`, elem.pieces, field.layers[layer][square][triangle]);
+        const { layer, square, triangle} = elem.coords;
+        const pieces = elem.isReversed ? ALL_ELEMENTS[elem.elementId].reversedPieces : ALL_ELEMENTS[elem.elementId].pieces;
+        drawElement(`Element ${elem.elementId}`, pieces, field.layers[layer][square][triangle]);
     })
 }
 
