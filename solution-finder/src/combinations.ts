@@ -1,12 +1,7 @@
 import { GameField, Triangle } from "./game-field";
 import { traversePieces } from "./traverse";
-import { Coords, FullElement, Piece } from "./types";
+import { CorrectTriangle, FullElement, Piece, PossibleSolutions } from "./types";
 
-type PossibleSolutions = {
-    element: FullElement;
-    triangles: Triangle[];
-    reversedTriangles: Triangle[];
-};
 
 export function filterInvalidPositions(field: GameField, elements: FullElement[]): PossibleSolutions[] {
     const possibleSolutionsForElements: PossibleSolutions[] = [];
@@ -18,50 +13,6 @@ export function filterInvalidPositions(field: GameField, elements: FullElement[]
 
     return possibleSolutionsForElements;
 }
-
-
-function isValidPosition(pieces: Piece[], firstTriangle: Triangle): boolean {
-    let isValid = true;
-
-    traversePieces(pieces, firstTriangle, null, () => {
-        isValid = false
-    });
-
-    return isValid;
-}
-
-function placeElement(pieces: Piece[], triangle: Triangle): boolean {
-    const affectedTriangles: Triangle[] = [];
-    let isSuccess = true;
-    traversePieces(pieces, triangle, (tr) => { 
-        if (!tr.isTaken && isSuccess) {
-            tr.isTaken = true; 
-            affectedTriangles.push(tr);
-        } else if (tr.isTaken && isSuccess) {
-            isSuccess = false;
-        }
-    });
-
-    if (!isSuccess) {
-        // Revert affected triangles
-        affectedTriangles.forEach(tr => tr.isTaken = false);
-    }
-
-    return isSuccess;
-}
-
-function removeElement(pieces: Piece[], triangle: Triangle): void {
-    traversePieces(pieces, triangle, (tr) => { 
-        tr.isTaken = false;
-    });
-}
-
-type CorrectTriangle = {
-    elementId: number;
-    isReversed: boolean;
-    pieces: Piece[];
-    triangle: Coords;
-};
 
 export function findFirstCorrectCombination(possibleSolutionsForElements: PossibleSolutions[]): CorrectTriangle[] | null {
     function placeNextElement(elementIndex: number): CorrectTriangle[] | null {
@@ -158,18 +109,13 @@ export function findAllCorrectCombinations(possibleSolutionsForElements: Possibl
                 removeElement(element.element.reversedPieces, triangle);
             }
         }
-
-        if (elementIndex === 0) {
-            console.log('end');
-        }
-        // Correct triangle not found
     }
 
     const allSolutions: CorrectTriangle[][] = [];
 
     placeNextElement(0, (solution) => {
         allSolutions.push(solution);
-        console.log('New solution found', iterations);
+        console.log(`New solution found. Number - ${allSolutions.length}. Iteration - ${iterations}`);
     });
 
     console.log('ALL Iterations', iterations);
@@ -177,4 +123,42 @@ export function findAllCorrectCombinations(possibleSolutionsForElements: Possibl
     console.log('Number of correct solutions', allSolutions.length);
 
     return allSolutions;
+}
+
+// FUNCTIONS HELPERS
+
+function isValidPosition(pieces: Piece[], firstTriangle: Triangle): boolean {
+    let isValid = true;
+
+    traversePieces(pieces, firstTriangle, null, () => {
+        isValid = false
+    });
+
+    return isValid;
+}
+
+function placeElement(pieces: Piece[], triangle: Triangle): boolean {
+    const affectedTriangles: Triangle[] = [];
+    let isSuccess = true;
+    traversePieces(pieces, triangle, (tr) => { 
+        if (!tr.isTaken && isSuccess) {
+            tr.isTaken = true; 
+            affectedTriangles.push(tr);
+        } else if (tr.isTaken && isSuccess) {
+            isSuccess = false;
+        }
+    });
+
+    if (!isSuccess) {
+        // Revert affected triangles
+        affectedTriangles.forEach(tr => tr.isTaken = false);
+    }
+
+    return isSuccess;
+}
+
+function removeElement(pieces: Piece[], triangle: Triangle): void {
+    traversePieces(pieces, triangle, (tr) => { 
+        tr.isTaken = false;
+    });
 }

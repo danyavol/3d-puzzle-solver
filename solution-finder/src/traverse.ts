@@ -9,7 +9,7 @@ export function traversePieces(
     pieces: Piece[],
     firstTriangle: Triangle,
     nextTriangleCallback?: TraverseCallBack | null,
-    invalidCallback?: ElementPositionInvalidCallback
+    invalidCallback?: ElementPositionInvalidCallback | null
 ): void {
     const placedPieces = new Set<number>();
     let isValid = true;
