@@ -14,7 +14,7 @@
         "id": 1,
         "pieces": [
             { "id": 0, "rightLeg": 1 },
-            { "id": 1, "leftLeg": 1, "hypotenuse": 2 },
+            { "id": 1, "leftLeg": 0, "hypotenuse": 2 },
             { "id": 2, "hypotenuse": 1, "rightLeg": 3 },
             { "id": 3, "leftLeg": 2 }
         ]

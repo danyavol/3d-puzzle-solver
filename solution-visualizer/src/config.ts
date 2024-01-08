@@ -26,8 +26,12 @@ export function initThreeJs() {
     scene.add( new THREE.AmbientLight( 0x666666 ) );
 
     const light = new THREE.DirectionalLight( 0xffffff, 3 );
-    light.position.set( 0, 500, 2000 );
+    light.position.set( 5, 10, 15 );
     scene.add( light ); 
+
+    const light2 = new THREE.DirectionalLight( 0xffffff, 3 );
+    light2.position.set( -15, -10, -20 );
+    scene.add( light2 ); 
 
     // Temporary Axis Visualizer
     // X - red, Y - green, Z - blue

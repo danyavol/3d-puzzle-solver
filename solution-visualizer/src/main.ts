@@ -1,10 +1,9 @@
 import "./styles/styles.scss";
 
 import * as THREE from 'three';
-import { ConvexGeometry } from 'three/addons/geometries/ConvexGeometry.js';
 import { initThreeJs } from './config';
-
-// Setup
+import { ElementsFactory } from "./create-element";
+import elements from "../../data/elements.json";
 
 const { scene, animate } = initThreeJs();
 
@@ -15,18 +14,11 @@ const meshMaterial = new THREE.MeshLambertMaterial( {
     transparent: true
 } );
 
-const points = [];
-points.push( new THREE.Vector3( 0, 0, 0 ) );
-points.push( new THREE.Vector3( 1, 0, 1 ) );
-points.push( new THREE.Vector3( 0, 0, 2 ) );
-points.push( new THREE.Vector3( 0, 1, 0 ) );
-points.push( new THREE.Vector3( 1, 1, 1 ) );
-points.push( new THREE.Vector3( 0, 1, 2 ) );
+const factory = new ElementsFactory();
 
-const meshGeometry = new ConvexGeometry( points );
-const triangle = new THREE.Mesh( meshGeometry, meshMaterial );
+const brush = factory.createElement(elements[6]);
 
-scene.add( triangle );
-
+brush.material = meshMaterial;
+scene.add(brush);
 
 animate();

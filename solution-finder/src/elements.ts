@@ -1,5 +1,5 @@
 import { Element, FullElement, Piece } from "./types";
-import elements from "../static/elements.json";
+import elements from "../../data/elements.json";
 
 export const ALL_ELEMENTS: FullElement[] = elements.map(reverseElement);
 
