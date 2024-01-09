@@ -5,7 +5,7 @@
     },
     "dependencies": {
         "three": "^0.160.0",
-        "three-bvh-csg": "^0.0.16"
+        "three-csg-ts": "^3.1.13"
     },
     "devDependencies": {
         "@types/three": "^0.160.0",

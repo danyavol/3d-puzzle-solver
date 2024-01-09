@@ -9,9 +9,9 @@ function reverseElement(element: Element): FullElement {
 
         if (piece.top != null) reversedPiece.bottom = piece.top;
         if (piece.bottom != null) reversedPiece.top = piece.bottom;
-        if (piece.hypotenuse) reversedPiece.hypotenuse = piece.hypotenuse;
-        if (piece.leftLeg) reversedPiece.rightLeg = piece.leftLeg;
-        if (piece.rightLeg) reversedPiece.leftLeg = piece.rightLeg;
+        if (piece.hypotenuse != null) reversedPiece.hypotenuse = piece.hypotenuse;
+        if (piece.leftLeg != null) reversedPiece.rightLeg = piece.leftLeg;
+        if (piece.rightLeg != null) reversedPiece.leftLeg = piece.rightLeg;
         
         return reversedPiece;
     });
