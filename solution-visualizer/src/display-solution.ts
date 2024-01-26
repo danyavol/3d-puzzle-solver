@@ -43,7 +43,7 @@ export function displaySolution(solution: CorrectTriangle[]): THREE.Mesh[] {
     const output: THREE.Mesh[] = [];
 
     solution.forEach(element => {
-        const mesh = element.isReversed ? meshes.reversed[element.elementId] : meshes.reversed[element.elementId];
+        const mesh = element.isReversed ? meshes.reversed[element.elementId] : meshes.standard[element.elementId];
 
         const offset = getElementOffset(element.coords);
         mesh.position.set(offset.position.x, offset.position.y, offset.position.z);
