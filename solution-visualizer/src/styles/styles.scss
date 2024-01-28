@@ -1,8 +1,14 @@
 body {
     margin: 0;
+    height: 100vh;
+}
+
+#controls {
+    height: 50px;
 }
 
 canvas {
     width: 100vw !important;
-    height: 100vh !important;
+    height: calc(100vh - 50px) !important;
+    user-select: none;
 }

@@ -1,18 +1,17 @@
 import "./styles/styles.scss";
 
 import { initThreeJs } from './config';
-import firstSolution from "../../data/first-solution.json";
-import { displaySolution } from "./display-solution";
 import * as THREE from "three";
+import { SolutionsSwitcher } from "./solutions-switcher";
 
 const { scene, animate, objectClick } = initThreeJs();
 
-const meshes = displaySolution(firstSolution);
-scene.add(...meshes);
+const group = new THREE.Group();
+scene.add(group);
 
-// TODO: Add possibility to switch solutions
+new SolutionsSwitcher(group);
 
-objectClick((object: THREE.Object3D) => {
+objectClick((object: any) => {
     if (object.material.opacity === 1) {
         object.material.opacity = 0.3;
     } else {
@@ -21,3 +20,4 @@ objectClick((object: THREE.Object3D) => {
 });
 
 animate();
+

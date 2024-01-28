@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
+const headerHeight = 50;
+
 export function initThreeJs() {
     // Init Scene
     const scene = new THREE.Scene();
@@ -9,16 +11,17 @@ export function initThreeJs() {
     // Init renderer
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
+    renderer.setSize(window.innerWidth, window.innerHeight - headerHeight);
+    const canvas = renderer.domElement;
+    document.body.appendChild(canvas);
 
     // Init camera
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(60, 2, 0.1, 1000);
     camera.position.set(8, 8, 8);
     camera.up.set(0, 0, 1);
 
     // Init camera controls
-    const controls = new OrbitControls(camera, renderer.domElement);
+    const controls = new OrbitControls(camera, canvas);
     controls.minDistance = 3;
     controls.maxDistance = 10;
     controls.target = new THREE.Vector3(2, 2, 2);
@@ -38,7 +41,8 @@ export function initThreeJs() {
     // X - red, Y - green, Z - blue
     scene.add(new THREE.AxesHelper(10));
 
-    window.addEventListener("resize", onWindowResize);
+    const resizeObserver = new ResizeObserver(resizeCanvasToDisplaySize);
+    resizeObserver.observe(canvas, {box: 'content-box'});
 
     const raycaster = new THREE.Raycaster();
     const pointer = new THREE.Vector2();
@@ -50,8 +54,12 @@ export function initThreeJs() {
     }
 
     function getCurrentObj(x: number, y: number) {
-        pointer.x = ( x / window.innerWidth ) * 2 - 1;
-        pointer.y = - ( y / window.innerHeight ) * 2 + 1; 
+        const rect = canvas.getBoundingClientRect();
+        x = x - rect.left;
+        y = y - rect.top;
+
+        pointer.x = ( x / canvas.clientWidth ) * 2 - 1;
+        pointer.y = - ( y / (canvas.clientHeight) ) * 2 + 1; 
 
         raycaster.setFromCamera(pointer, camera);
         const intersects = raycaster.intersectObjects(scene.children);
@@ -74,11 +82,18 @@ export function initThreeJs() {
 
     return { scene, animate, objectClick };
 
-    function onWindowResize() {
-        camera.aspect = window.innerWidth / window.innerHeight;
+    function resizeCanvasToDisplaySize() {
+        const canvas = renderer.domElement;
+        // look up the size the canvas is being displayed
+        const width = canvas.clientWidth;
+        const height = canvas.clientHeight;
+      
+        // you must pass false here or three.js sadly fights the browser
+        renderer.setSize(width, height, false);
+        camera.aspect = width / height;
         camera.updateProjectionMatrix();
-
-        renderer.setSize(window.innerWidth, window.innerHeight);
+      
+        // update any render target sizes here
     }
     
     function animate() {
