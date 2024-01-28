@@ -1,0 +1,19 @@
+button {
+    padding: 5px 10px;
+    background-color: #E6F6EB;
+    color: #218358;
+    border-radius: 3px;
+    border: 2px solid transparent;
+
+    &:hover {
+        background-color: #D6F1DF;
+    }
+
+    &:active {
+        background-color: #C4E8D1;
+    }
+
+    &:focus-visible {
+        outline: 2px solid #8DA4EF;
+    }
+}
