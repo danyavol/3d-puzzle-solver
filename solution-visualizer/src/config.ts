@@ -22,6 +22,7 @@ export function initThreeJs() {
 
     // Init camera controls
     const controls = new OrbitControls(camera, canvas);
+    controls.enablePan = false;
     controls.minDistance = 5;
     controls.maxDistance = 15;
     controls.target = new THREE.Vector3(2, 2, 2);
