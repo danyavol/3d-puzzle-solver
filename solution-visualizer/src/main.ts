@@ -11,11 +11,21 @@ scene.add(group);
 
 new SolutionsSwitcher(group);
 
-objectClick((object: any) => {
-    if (object.material.opacity === 1) {
-        object.material.opacity = 0.3;
+let prevObj: THREE.Mesh;
+
+objectClick((object) => {
+    if (prevObj && prevObj !== object) {
+        prevObj.renderOrder = 0;
+        (prevObj.material as THREE.MeshLambertMaterial).opacity = 1;
+    }
+    
+    prevObj = object;
+    object.renderOrder = 1;
+    const material = object.material as THREE.MeshLambertMaterial;
+    if (material.opacity === 1) {
+        material.opacity = 0.5;
     } else {
-        object.material.opacity = 1;
+        material.opacity = 1;
     }
 });
 

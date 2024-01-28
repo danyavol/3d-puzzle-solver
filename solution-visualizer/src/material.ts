@@ -1,19 +1,11 @@
 import * as THREE from "three";
 
-export const solidMaterial = new THREE.MeshLambertMaterial({
+const solidMaterial = new THREE.MeshLambertMaterial({
     color: 0xff0000,
     opacity: 1,
     side: THREE.FrontSide,
     transparent: true,
     name: "solid"
-});
-
-export const transparentMaterial = new THREE.MeshLambertMaterial({
-    color: 0xff0000,
-    opacity: 0.3,
-    side: THREE.DoubleSide,
-    transparent: true,
-    name: "transparent"
 });
 
 const colorsMap = {

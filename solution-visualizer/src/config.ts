@@ -48,9 +48,9 @@ export function initThreeJs() {
     const raycaster = new THREE.Raycaster();
     const pointer = new THREE.Vector2();
 
-    let clickedObject: THREE.Object3D | null = null;
-    let objectClickCallback: (object: THREE.Object3D) => void | undefined;
-    const objectClick = (callback: (object: THREE.Object3D) => void) => {
+    let clickedObject: THREE.Mesh | null = null;
+    let objectClickCallback: (object: THREE.Mesh) => void | undefined;
+    const objectClick = (callback: (object: THREE.Mesh) => void) => {
         objectClickCallback = callback
     }
 
@@ -65,7 +65,13 @@ export function initThreeJs() {
         raycaster.setFromCamera(pointer, camera);
         const intersects = raycaster.intersectObjects(scene.children);
 
-        return intersects.length ? intersects[0].object : null;
+        for (const intr of intersects) {
+            if (intr.object instanceof THREE.Mesh) {
+                return intr.object;
+            }
+        }
+
+        return null;
     }
 
     window.addEventListener("mousedown", (event) => {
