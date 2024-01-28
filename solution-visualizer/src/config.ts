@@ -16,14 +16,14 @@ export function initThreeJs() {
     document.body.appendChild(canvas);
 
     // Init camera
-    const camera = new THREE.PerspectiveCamera(60, 2, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(75, 2, 0.1, 1000);
     camera.position.set(8, 8, 8);
     camera.up.set(0, 0, 1);
 
     // Init camera controls
     const controls = new OrbitControls(camera, canvas);
-    controls.minDistance = 3;
-    controls.maxDistance = 10;
+    controls.minDistance = 5;
+    controls.maxDistance = 15;
     controls.target = new THREE.Vector3(2, 2, 2);
 
     // Add light to Scene
