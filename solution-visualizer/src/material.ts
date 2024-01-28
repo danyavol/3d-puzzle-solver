@@ -1,10 +1,19 @@
 import * as THREE from "three";
 
-const meshMaterial = new THREE.MeshLambertMaterial({
+export const solidMaterial = new THREE.MeshLambertMaterial({
     color: 0xff0000,
     opacity: 1,
+    side: THREE.FrontSide,
+    transparent: true,
+    name: "solid"
+});
+
+export const transparentMaterial = new THREE.MeshLambertMaterial({
+    color: 0xff0000,
+    opacity: 0.3,
     side: THREE.DoubleSide,
     transparent: true,
+    name: "transparent"
 });
 
 const colorsMap = {
@@ -23,7 +32,7 @@ const colorsMap = {
 
 export function getMaterial(elementId: number) {
     const colorId = (elementId % 11) as keyof typeof colorsMap;
-    const material = meshMaterial.clone();
+    const material = solidMaterial.clone();
     material.color = new THREE.Color(colorsMap[colorId]);
     return material;
 }

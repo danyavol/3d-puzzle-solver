@@ -13,7 +13,7 @@ export function initThreeJs() {
     document.body.appendChild(renderer.domElement);
 
     // Init camera
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(8, 8, 8);
     camera.up.set(0, 0, 1);
 
@@ -40,7 +40,39 @@ export function initThreeJs() {
 
     window.addEventListener("resize", onWindowResize);
 
-    return { scene, animate };
+    const raycaster = new THREE.Raycaster();
+    const pointer = new THREE.Vector2();
+
+    let clickedObject: THREE.Object3D | null = null;
+    let objectClickCallback: (object: THREE.Object3D) => void | undefined;
+    const objectClick = (callback: (object: THREE.Object3D) => void) => {
+        objectClickCallback = callback
+    }
+
+    function getCurrentObj(x: number, y: number) {
+        pointer.x = ( x / window.innerWidth ) * 2 - 1;
+        pointer.y = - ( y / window.innerHeight ) * 2 + 1; 
+
+        raycaster.setFromCamera(pointer, camera);
+        const intersects = raycaster.intersectObjects(scene.children);
+
+        return intersects.length ? intersects[0].object : null;
+    }
+
+    window.addEventListener("mousedown", (event) => {
+        const obj = getCurrentObj(event.clientX, event.clientY);
+        if (obj) clickedObject = obj;
+    });
+
+    window.addEventListener("mouseup", (event) => {
+        const obj = getCurrentObj(event.clientX, event.clientY);
+        if (obj && obj === clickedObject) {
+            objectClickCallback?.(obj)
+        }
+        clickedObject = null;
+    });
+
+    return { scene, animate, objectClick };
 
     function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -48,7 +80,7 @@ export function initThreeJs() {
 
         renderer.setSize(window.innerWidth, window.innerHeight);
     }
-
+    
     function animate() {
         requestAnimationFrame(animate);
 

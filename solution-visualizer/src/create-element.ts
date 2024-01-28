@@ -22,8 +22,6 @@ export function getAllElementsMeshes(): { standard: MeshesMap, reversed: MeshesM
         reversedMap[element.id] = reversedMesh;
     });
 
-    console.log(ALL_ELEMENTS[4]);
-
     return { standard: map, reversed: reversedMap };
 }
 
